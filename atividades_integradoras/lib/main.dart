@@ -1,3 +1,4 @@
+import 'package:atividades_integradoras/telas/cadastro.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(AtividadeIntegradora());
@@ -104,12 +105,9 @@ class TelaInicial extends StatelessWidget {
 
           GestureDetector(
             onTap: (){
-              //Navigator.pushNamed(context, routeName);
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: Text('data'),
-                ),
+              Navigator.push(
+                context, 
+                MaterialPageRoute(builder: (context)=> CadastroPasso1()),
               );
             },
             child: Text(
