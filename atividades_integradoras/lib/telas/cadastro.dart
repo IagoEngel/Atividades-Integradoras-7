@@ -1,3 +1,4 @@
+import 'package:atividades_integradoras/telas/passo2.dart';
 import 'package:flutter/material.dart';
 
 class CadastroPasso1 extends StatelessWidget {
@@ -23,7 +24,39 @@ class CadastroPasso1 extends StatelessWidget {
           _email(),
           _senha(),
           _confirmaSenha(),
-          _proximoPasso(),
+          Container(
+            padding: const EdgeInsets.only(
+              left: 42.5,
+              right: 42.5,
+              top: 12.0,
+              bottom: 12.0,
+            ),
+            child: SizedBox(
+              height: 66,
+              width: double.infinity,
+              child: RaisedButton(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(width: 30),
+                    Text('Próximo', style: TextStyle(fontSize: 26)),
+                    SizedBox(width: 30),
+                    Icon(Icons.keyboard_tab),
+                  ],
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Passo2()),
+                  );
+                },
+              ),
+            ),
+          )
         ],
       ),
     );
@@ -145,36 +178,6 @@ Widget _passo1() {
         backgroundColor: Colors.white,
         color: Color.fromRGBO(124, 70, 192, 1.0),
         fontSize: 32,
-      ),
-    ),
-  );
-}
-
-Widget _proximoPasso() {
-  return Container(
-    padding: const EdgeInsets.only(
-      left: 42.5,
-      right: 42.5,
-      top: 12.0,
-      bottom: 12.0,
-    ),
-    child: SizedBox(
-      height: 66,
-      width: double.infinity,
-      child: RaisedButton(
-        color: Colors.white,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10.0))),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[    
-            SizedBox(width: 30),        
-            Text('Próximo', style: TextStyle(fontSize: 26)),
-            SizedBox(width: 30),
-            Icon(Icons.keyboard_tab),
-          ],
-        ),
-        onPressed: () {},
       ),
     ),
   );
