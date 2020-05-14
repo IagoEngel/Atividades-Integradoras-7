@@ -50,13 +50,13 @@ class CadastroPasso1 extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => Passo2()),
+                    MaterialPageRoute(builder: (context) => Passo2()),
                   );
                 },
               ),
             ),
-          )
+          ),
+          _voltarLogin(context),
         ],
       ),
     );
@@ -178,6 +178,21 @@ Widget _passo1() {
         backgroundColor: Colors.white,
         color: Color.fromRGBO(124, 70, 192, 1.0),
         fontSize: 32,
+      ),
+    ),
+  );
+}
+
+Widget _voltarLogin(var context) {
+  return GestureDetector(
+    onTap: () {
+      Navigator.pop(context);
+    },
+    child: Text(
+      'Voltar para o Login',
+      style: TextStyle(
+        fontSize: 20,
+        color: Colors.white,
       ),
     ),
   );
