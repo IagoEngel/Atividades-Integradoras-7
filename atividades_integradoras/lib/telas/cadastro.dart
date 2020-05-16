@@ -73,11 +73,11 @@ Widget _nomeCompleto() {
       ),
       child: TextField(
         decoration: new InputDecoration(
-          enabledBorder: new OutlineInputBorder(
+          enabledBorder: new OutlineInputBorder(            
             borderSide: BorderSide(color: Colors.white),
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
           ),
-          border: new OutlineInputBorder(
+          border: new OutlineInputBorder(            
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
           ),
           labelText: 'Nome Completo',

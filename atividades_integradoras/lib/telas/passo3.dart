@@ -1,10 +1,13 @@
+import 'package:atividades_integradoras/classes/investidor.dart';
+import 'package:atividades_integradoras/telas/listaprojetos.dart';
+import 'package:atividades_integradoras/telas/pesquisador.dart';
 import 'package:flutter/material.dart';
 
 class Passo3 extends StatefulWidget {
   var tipoUsuario = new List<String>();
 
-  Passo3 (){
-    tipoUsuario = ['Investidor','Pesquisador'];
+  Passo3() {
+    tipoUsuario = ['Investidor', 'Pesquisador'];
   }
 
   @override
@@ -135,11 +138,13 @@ class _Passo3State extends State<Passo3> {
                     SizedBox(width: 30),
                   ],
                 ),
-                onPressed: () {/* 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Passo3()),
-                  ); */
+                onPressed: (){
+                  if(_currentTipo=='Investidor'){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ListaProjetos()));
+                  }
+                  if(_currentTipo=='Pesquisador'){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Pesquisador()));                    
+                  }
                 },
               ),
             ),
@@ -154,7 +159,7 @@ class _Passo3State extends State<Passo3> {
 Widget _voltarLogin(var context) {
   return GestureDetector(
     onTap: () {
-      Navigator.of(context).popUntil((route)=>route.isFirst);
+      Navigator.of(context).popUntil((route) => route.isFirst);
     },
     child: Text(
       'Voltar para o Login',
