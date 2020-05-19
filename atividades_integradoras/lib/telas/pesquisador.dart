@@ -13,7 +13,9 @@ class _PesquisadorState extends State<Pesquisador> {
       body: SingleChildScrollView(
         child: ConstrainedBox(
           constraints: BoxConstraints(),
-          child: CadastarProjeto(),
+          child: Container(
+            child: CadastarProjeto(),
+          ),
         ),
       ),
     );
@@ -28,51 +30,84 @@ Widget CadastarProjeto() {
   TextEditingController _telefone = new TextEditingController();
   TextEditingController _email = new TextEditingController();
 
-  return Column(
-    children: <Widget>[
-      SizedBox(
-        height: 70,
-      ),
-      Center(
-        child: Text(
-          'Cadastrar novo projeto',
-          style: TextStyle(color: Colors.white, fontSize: 27),
-          textAlign: TextAlign.center,
+  return Padding(
+    padding: const EdgeInsets.only(top: 40),
+    child: Column(
+      children: <Widget>[
+        SizedBox(
+          height: 70,
         ),
-      ),
-      SizedBox(
-        height: 30,
-      ),
-      Container(
-        color: Colors.transparent,
-        child: new Container(
-          decoration: new BoxDecoration(
-            color: Color.fromRGBO(240, 240, 245, 1.0),
-            borderRadius: new BorderRadius.only(
-              topLeft: const Radius.circular(70),
-              topRight: const Radius.circular(70),
+        Center(
+          child: Text(
+            'Cadastrar novo projeto',
+            style: TextStyle(color: Colors.white, fontSize: 27),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        SizedBox(
+          height: 30,
+        ),
+        Container(
+          color: Colors.transparent,
+          child: new Container(
+            decoration: new BoxDecoration(
+              color: Color.fromRGBO(240, 240, 245, 1.0),
+              borderRadius: new BorderRadius.only(
+                topLeft: const Radius.circular(70),
+                topRight: const Radius.circular(70),
+              ),
+            ),
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: 60),
+                _camposAtributos(_titulo, Icons.mode_edit, "Titulo"),
+                _camposAtributos(_autor, Icons.person, "Autor"),
+                _camposAtributos(_linkArtigo, Icons.link, "Link para artigo"),
+                _camposAtributos(
+                    _linkArtigo, Icons.calendar_today, "Data de inicio"),
+                _camposAtributos(
+                    _linkArtigo, Icons.calendar_today, "Previsão de término"),
+                _camposAtributos(_custo, Icons.monetization_on, "Custo"),
+                _camposAtributos(_telefone, Icons.phone, "Telefone"),
+                _camposAtributos(_email, Icons.email, "E-mail"),
+                _temas(),
+                _descricaoProjeto(),
+                //BOTAO CADASTRAR
+                Container(
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    right: 20,
+                    top: 12.0,
+                    bottom: 12.0,
+                  ),
+                  child: SizedBox(
+                    height: 78,
+                    width: double.infinity,
+                    child: RaisedButton(
+                      color: Color.fromRGBO(124, 70, 192, 1.0),
+                      shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(10.0))),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(Icons.save,color: Colors.white),
+                          SizedBox(width: 30),
+                          Text('Cadastrar', style: TextStyle(fontSize: 26, color: Colors.white)),
+                          SizedBox(width: 30),
+                        ],
+                      ),
+                      onPressed: () {
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: 60),
-              _camposAtributos(_titulo, Icons.mode_edit, "Titulo"),
-              _camposAtributos(_autor, Icons.person, "Autor"),
-              _camposAtributos(_linkArtigo, Icons.link, "Link para artigo"),
-              _camposAtributos(
-                  _linkArtigo, Icons.calendar_today, "Data de inicio"),
-              _camposAtributos(
-                  _linkArtigo, Icons.calendar_today, "Previsão de término"),
-              _camposAtributos(_custo, Icons.monetization_on, "Custo"),
-              _camposAtributos(_telefone, Icons.phone, "Telefone"),
-              _camposAtributos(_email, Icons.email, "E-mail"),
-              _temas(),
-              _descricaoProjeto(),
-            ],
-          ),
         ),
-      ),
-    ],
+      ],
+    ),
   );
 }
 

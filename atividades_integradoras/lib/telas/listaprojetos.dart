@@ -1,3 +1,5 @@
+import 'package:atividades_integradoras/telas/detalhesprojeto.dart';
+import 'package:atividades_integradoras/telas/filtrarpesquisa.dart';
 import 'package:flutter/material.dart';
 
 class ListaProjetos extends StatefulWidget {
@@ -25,22 +27,22 @@ class _ListaProjetosState extends State<ListaProjetos> {
       body: Container(
         color: Color.fromRGBO(240, 240, 245, 1.0),
         padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
-        child: Estrutura(),
+        child: Estrutura(context),
       ),
     );
   }
 }
 
-Widget Estrutura() {
+Widget Estrutura(var context) {
   return Column(
     children: <Widget>[
       //TAGS
       Container(
         alignment: Alignment.topLeft,
         child: RaisedButton(
-          disabledColor: Colors.white,
-          disabledTextColor: Color.fromRGBO(124, 70, 192, 1.0),
-          child: Text('Educação', style: TextStyle(fontSize: 15)),
+          color: Colors.white,
+          textColor: Color.fromRGBO(124, 70, 192, 1.0),
+          child: Text('Educação', style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold)),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(50.0)),
             side: BorderSide(
@@ -48,15 +50,20 @@ Widget Estrutura() {
               width: 2.0,
             ),
           ),
-          onPressed: null,
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context)=>FiltrarPesquisa()),
+            );
+          },
         ),
       ),
-      cards(),
+      cards(context),
     ],
   );
 }
 
-Widget cards() {
+Widget cards(var context) {
   return Container(
     alignment: Alignment.topCenter,
     child: Container(
@@ -103,8 +110,7 @@ Widget cards() {
               child: RaisedButton(
                 color: Color.fromRGBO(124, 70, 192, 1.0),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10))
-                ),
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
                 child: ListTile(
                   title: Text(
                     'Ver detalhes do projeto',
@@ -112,8 +118,11 @@ Widget cards() {
                   ),
                   trailing: Icon(Icons.remove_red_eye, color: Colors.white),
                 ),
-                onPressed: (){
-
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DetalhesProjeto()));
                 },
               ),
             ),
