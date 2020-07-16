@@ -17,6 +17,9 @@ class AtividadeIntegradora extends StatelessWidget {
 
 class TelaInicial extends StatelessWidget {
   final AuthService _auth = AuthService();
+  TextEditingController txtEmail = new TextEditingController();
+  TextEditingController txtSenha = new TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +51,7 @@ class TelaInicial extends StatelessWidget {
                 primaryColor: Colors.white,
               ),
               child: TextField(
+                controller: txtEmail,
                 style: TextStyle(color: Colors.white),
                 decoration: new InputDecoration(
                   enabledBorder: new OutlineInputBorder(
@@ -71,6 +75,7 @@ class TelaInicial extends StatelessWidget {
                 primaryColor: Colors.white,
               ),
               child: TextField(
+                controller: txtSenha,
                 style: TextStyle(color: Colors.white),
                 decoration: new InputDecoration(
                   enabledBorder: new OutlineInputBorder(
@@ -104,7 +109,7 @@ class TelaInicial extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(10.0))),
                 child: Text('Sign in', style: TextStyle(fontSize: 26)),
                 onPressed: () async {
-                  dynamic result = await _auth.signInAnon();
+                  dynamic result = await _auth.signInEmailPasswd(txtEmail.text, txtSenha.text);
                   if (result == null){
                     print('error signing in');
                   }else{
