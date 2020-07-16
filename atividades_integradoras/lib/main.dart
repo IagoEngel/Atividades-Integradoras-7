@@ -24,6 +24,7 @@ class TelaInicial extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Color.fromRGBO(124, 70, 192, 1.0),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
