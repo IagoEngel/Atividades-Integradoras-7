@@ -16,9 +16,7 @@ class _ListaProjetosState extends State<ListaProjetos> {
         title: Row(
           children: <Widget>[
             Text('Lista de Projetos'),
-            SizedBox(
-              width: 148.0,
-            ),
+            Expanded(child: SizedBox()),
             Icon(Icons.search),
           ],
         ),

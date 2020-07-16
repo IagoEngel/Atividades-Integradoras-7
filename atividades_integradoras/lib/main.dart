@@ -1,3 +1,4 @@
+import 'package:atividades_integradoras/services/auth.dart';
 import 'package:atividades_integradoras/telas/cadastro.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +16,8 @@ class AtividadeIntegradora extends StatelessWidget {
 }
 
 class TelaInicial extends StatelessWidget {
+  final AuthService _auth = AuthService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,6 +48,7 @@ class TelaInicial extends StatelessWidget {
                 primaryColor: Colors.white,
               ),
               child: TextField(
+                style: TextStyle(color: Colors.white),
                 decoration: new InputDecoration(
                   enabledBorder: new OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.white),
@@ -59,7 +63,6 @@ class TelaInicial extends StatelessWidget {
               ),
             ),
           ),
-
           Container(
             padding: const EdgeInsets.only(
                 left: 42.5, right: 42.5, top: 12.0, bottom: 12.0),
@@ -68,6 +71,7 @@ class TelaInicial extends StatelessWidget {
                 primaryColor: Colors.white,
               ),
               child: TextField(
+                style: TextStyle(color: Colors.white),
                 decoration: new InputDecoration(
                   enabledBorder: new OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.white),
@@ -79,6 +83,7 @@ class TelaInicial extends StatelessWidget {
                   labelText: 'Senha',
                   labelStyle: TextStyle(color: Colors.white, fontSize: 26),
                 ),
+                obscureText: true,
               ),
             ),
           ),
@@ -98,7 +103,15 @@ class TelaInicial extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.0))),
                 child: Text('Sign in', style: TextStyle(fontSize: 26)),
-                onPressed: () {},
+                onPressed: () async {
+                  dynamic result = await _auth.signInAnon();
+                  if (result == null){
+                    print('error signing in');
+                  }else{
+                    print('signed in');
+                    print(result.uid);
+                  }
+                },
               ),
             ),
           ),

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "982173647259",
+    "firebase_url": "https://integradoras7.firebaseio.com",
+    "project_id": "integradoras7",
+    "storage_bucket": "integradoras7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:982173647259:android:09a33c48cb5afad8e5213e",
+        "android_client_info": {
+          "package_name": "integradoras.sete"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "982173647259-5s9g125ic1gqhcq632rr9jcd9rlviru9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAG3VLcW5-F0iwpZCFdTxnzE61O7KsmzF0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "982173647259-5s9g125ic1gqhcq632rr9jcd9rlviru9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

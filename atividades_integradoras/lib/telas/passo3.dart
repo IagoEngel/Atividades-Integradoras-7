@@ -1,4 +1,3 @@
-import 'package:atividades_integradoras/classes/investidor.dart';
 import 'package:atividades_integradoras/telas/listaprojetos.dart';
 import 'package:atividades_integradoras/telas/pesquisador.dart';
 import 'package:flutter/material.dart';
