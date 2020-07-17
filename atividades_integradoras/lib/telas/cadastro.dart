@@ -1,7 +1,24 @@
+import 'package:atividades_integradoras/models/user.dart';
+import 'package:atividades_integradoras/services/auth.dart';
 import 'package:atividades_integradoras/telas/passo2.dart';
 import 'package:flutter/material.dart';
 
-class CadastroPasso1 extends StatelessWidget {
+class CadastroPasso1 extends StatefulWidget {
+  @override
+  _CadastroPasso1State createState() => _CadastroPasso1State();
+}
+
+class _CadastroPasso1State extends State<CadastroPasso1> {
+  final AuthService _auth = AuthService();
+
+  var uid;
+
+  TextEditingController txtnome = new TextEditingController();
+
+  TextEditingController txtemail = new TextEditingController();
+
+  TextEditingController txtsenha = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,9 +37,9 @@ class CadastroPasso1 extends StatelessWidget {
             height: 12.0,
           ),
           _passo1(),
-          _nomeCompleto(),
-          _email(),
-          _senha(),
+          _nomeCompleto(txtnome),
+          _email(txtemail),
+          _senha(txtsenha),
           _confirmaSenha(),
           Container(
             padding: const EdgeInsets.only(
@@ -47,10 +64,19 @@ class CadastroPasso1 extends StatelessWidget {
                     Icon(Icons.keyboard_tab),
                   ],
                 ),
-                onPressed: () {
+                onPressed: () async {
+                  await _auth.createEmailPasswd(txtemail.text, txtsenha.text);
+                  await _getUID(txtemail.text, txtsenha.text);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Passo2()),
+                    MaterialPageRoute(
+                        builder: (context) => Passo2(
+                              usuario: User(
+                                email: txtemail.text,
+                                nome: txtnome.text,
+                                uid: uid,
+                              ),
+                            )),
                   );
                 },
               ),
@@ -61,9 +87,13 @@ class CadastroPasso1 extends StatelessWidget {
       ),
     );
   }
+  _getUID(String email, String passwd) async{
+    dynamic result = await _auth.signInEmailPasswd(email, passwd);
+    uid = result.uid;
+  }
 }
 
-Widget _nomeCompleto() {
+Widget _nomeCompleto(TextEditingController txtnome) {
   return Container(
     padding:
         const EdgeInsets.only(left: 42.5, right: 42.5, top: 24.0, bottom: 12.0),
@@ -72,12 +102,13 @@ Widget _nomeCompleto() {
         primaryColor: Colors.white,
       ),
       child: TextField(
+        controller: txtnome,
         decoration: new InputDecoration(
-          enabledBorder: new OutlineInputBorder(            
+          enabledBorder: new OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
           ),
-          border: new OutlineInputBorder(            
+          border: new OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
           ),
           labelText: 'Nome Completo',
@@ -88,7 +119,7 @@ Widget _nomeCompleto() {
   );
 }
 
-Widget _email() {
+Widget _email(TextEditingController txtemail) {
   return Container(
     padding:
         const EdgeInsets.only(left: 42.5, right: 42.5, top: 12.0, bottom: 12.0),
@@ -97,6 +128,7 @@ Widget _email() {
         primaryColor: Colors.white,
       ),
       child: TextField(
+        controller: txtemail,
         decoration: new InputDecoration(
           enabledBorder: new OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
@@ -113,7 +145,7 @@ Widget _email() {
   );
 }
 
-Widget _senha() {
+Widget _senha(TextEditingController txtsenha) {
   return Container(
     padding:
         const EdgeInsets.only(left: 42.5, right: 42.5, top: 12.0, bottom: 12.0),
@@ -122,6 +154,7 @@ Widget _senha() {
         primaryColor: Colors.white,
       ),
       child: TextField(
+        controller: txtsenha,
         decoration: new InputDecoration(
           enabledBorder: new OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white),

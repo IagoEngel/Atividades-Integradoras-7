@@ -1,3 +1,6 @@
+import 'package:atividades_integradoras/models/projeto.dart';
+import 'package:atividades_integradoras/repository/dataprojeto.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Pesquisador extends StatefulWidget {
@@ -23,12 +26,17 @@ class _PesquisadorState extends State<Pesquisador> {
 }
 
 Widget CadastarProjeto() {
+  final ProjetoRepository repository = ProjetoRepository();
   TextEditingController _titulo = new TextEditingController();
   TextEditingController _autor = new TextEditingController();
   TextEditingController _linkArtigo = new TextEditingController();
   TextEditingController _custo = new TextEditingController();
   TextEditingController _telefone = new TextEditingController();
   TextEditingController _email = new TextEditingController();
+  TextEditingController _dataInicio = new TextEditingController();
+  TextEditingController _previsaoTermino = new TextEditingController();
+  TextEditingController _descricao = new TextEditingController();
+
 
   return Padding(
     padding: const EdgeInsets.only(top: 40),
@@ -64,14 +72,13 @@ Widget CadastarProjeto() {
                 _camposAtributos(_autor, Icons.person, "Autor"),
                 _camposAtributos(_linkArtigo, Icons.link, "Link para artigo"),
                 _camposAtributos(
-                    _linkArtigo, Icons.calendar_today, "Data de inicio"),
+                    _dataInicio, Icons.calendar_today, "Data de inicio"),
                 _camposAtributos(
-                    _linkArtigo, Icons.calendar_today, "Previsão de término"),
+                    _previsaoTermino, Icons.calendar_today, "Previsão de término"),
                 _camposAtributos(_custo, Icons.monetization_on, "Custo"),
                 _camposAtributos(_telefone, Icons.phone, "Telefone"),
                 _camposAtributos(_email, Icons.email, "E-mail"),
-                _temas(),
-                _descricaoProjeto(),
+                _descricaoProjeto(_descricao),
                 //BOTAO CADASTRAR
                 Container(
                   padding: const EdgeInsets.only(
@@ -98,6 +105,18 @@ Widget CadastarProjeto() {
                         ],
                       ),
                       onPressed: () {
+                        Projeto projeto = Projeto(
+                          titulo: _titulo.text,
+                          autor: _autor.text,
+                          linkArtigo: _linkArtigo.text,
+                          dataInicio: _dataInicio.text,
+                          previsaoTermino: _previsaoTermino.text,
+                          custo: int.parse(_custo.text),
+                          telefone: _telefone.text,
+                          email: _email.text,
+                          descricao: _descricao.text,
+                        );
+                        repository.addProjeto(projeto);
                       },
                     ),
                   ),
@@ -147,7 +166,7 @@ Widget _camposAtributos(var controller, IconData icone, String nome) {
   );
 }
 
-Widget _temas() {
+/* Widget _temas() {
   return Container(
     margin: EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 10),
     alignment: Alignment.topCenter,
@@ -175,9 +194,9 @@ Widget _temas() {
       maxLines: 6,
     ),
   );
-}
+} */
 
-Widget _descricaoProjeto() {
+Widget _descricaoProjeto(var controller) {
   return Container(
     margin: EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 10),
     alignment: Alignment.topCenter,
@@ -190,6 +209,7 @@ Widget _descricaoProjeto() {
       ),
     ),
     child: TextField(
+      controller: controller,
       decoration: new InputDecoration(
         border: InputBorder.none,
         focusedBorder: InputBorder.none,

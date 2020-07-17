@@ -1,5 +1,7 @@
+import 'package:atividades_integradoras/models/projeto.dart';
 import 'package:atividades_integradoras/telas/detalhesprojeto.dart';
 import 'package:atividades_integradoras/telas/filtrarpesquisa.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ListaProjetos extends StatefulWidget {
@@ -56,12 +58,32 @@ Widget Estrutura(var context) {
           },
         ),
       ),
-      cards(context),
+      
+      _buildCards(context),
     ],
   );
 }
 
-Widget cards(var context) {
+Widget _buildCards(BuildContext context){
+  return StreamBuilder<QuerySnapshot>(
+    stream: Firestore.instance.collection('projeto').snapshots(),
+    builder: (context, snapshot){
+      if(!snapshot.hasData) return LinearProgressIndicator();
+
+      return _buildListCards(context, snapshot.data.documents);
+    },
+  );
+}
+
+Widget _buildListCards(BuildContext context, List<DocumentSnapshot> snapshot){
+  return Column(
+    children: snapshot.map((e) => cards(context, e)).toList(),
+  );
+}
+
+Widget cards(BuildContext context, DocumentSnapshot data) {
+  final registro = Projeto.fromSnapshot(data);
+
   return Container(
     alignment: Alignment.topCenter,
     child: Container(
@@ -78,14 +100,14 @@ Widget cards(var context) {
           children: <Widget>[
             SizedBox(height: 20),
             Text(
-              'Titulo',
+              '${registro.titulo}',
               style: TextStyle(
                   color: Color.fromRGBO(124, 70, 192, 1.0), fontSize: 26),
             ),
             //DESCRIÇÃO
             ListTile(
               title: Text(
-                'Projeto visa solucionar a dificuldade de aprendizado de crianças com TDA. ',
+                '${registro.descricao}',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
@@ -97,7 +119,7 @@ Widget cards(var context) {
                     color: Color.fromRGBO(124, 70, 192, 1.0), fontSize: 20),
               ),
               trailing: Text(
-                'R\$ 10.000,00',
+                'R\$ ${registro.custo},00',
                 style: TextStyle(
                     color: Color.fromRGBO(124, 70, 192, 1.0), fontSize: 20),
               ),
@@ -120,7 +142,7 @@ Widget cards(var context) {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => DetalhesProjeto()));
+                          builder: (context) => DetalhesProjeto(registro)));
                 },
               ),
             ),

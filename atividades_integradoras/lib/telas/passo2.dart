@@ -1,12 +1,13 @@
-import 'package:atividades_integradoras/telas/cadastro.dart';
+import 'package:atividades_integradoras/models/user.dart';
 import 'package:atividades_integradoras/telas/passo3.dart';
 import 'package:flutter/material.dart';
 
 class Passo2 extends StatefulWidget {
   var estados = new List<String>();
   var escolaridade = new List<String>();
+  User usuario;
 
-  Passo2() {
+  Passo2({@required this.usuario}) {
     estados = [
       'RO',
       'AC',
@@ -45,6 +46,8 @@ class Passo2 extends StatefulWidget {
 class _Passo2State extends State<Passo2> {
   var _currentSelectedValue;
   var _currentEscolaridade;
+  TextEditingController txtcidade = new TextEditingController();
+  TextEditingController txtinstituicao = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -135,8 +138,8 @@ class _Passo2State extends State<Passo2> {
               ),
             ),
           ),
-          _cidade(),
-          _instituicao(),
+          _cidade(txtcidade),
+          _instituicao(txtinstituicao),
           //Escolaridade DropDown
           Container(
             padding: const EdgeInsets.only(
@@ -220,7 +223,18 @@ class _Passo2State extends State<Passo2> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Passo3()),
+                    MaterialPageRoute(
+                        builder: (context) => Passo3(
+                              usuario: User(
+                                nome: widget.usuario.nome,
+                                email: widget.usuario.email,
+                                uf: _currentSelectedValue,
+                                cidade: txtcidade.text,
+                                instituicao: txtinstituicao.text,
+                                escolaridade: _currentEscolaridade,
+                                uid: widget.usuario.uid,
+                              ),
+                            )),
                   );
                 },
               ),
@@ -233,7 +247,7 @@ class _Passo2State extends State<Passo2> {
   }
 }
 
-Widget _cidade() {
+Widget _cidade(var controller) {
   return Container(
     padding:
         const EdgeInsets.only(left: 42.5, right: 42.5, top: 12.0, bottom: 12.0),
@@ -242,6 +256,7 @@ Widget _cidade() {
         primaryColor: Colors.white,
       ),
       child: TextField(
+        controller: controller,
         decoration: new InputDecoration(
           enabledBorder: new OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
@@ -258,7 +273,7 @@ Widget _cidade() {
   );
 }
 
-Widget _instituicao() {
+Widget _instituicao(var controller) {
   return Container(
     padding:
         const EdgeInsets.only(left: 42.5, right: 42.5, top: 12.0, bottom: 12.0),
@@ -267,6 +282,7 @@ Widget _instituicao() {
         primaryColor: Colors.white,
       ),
       child: TextField(
+        controller: controller,
         decoration: new InputDecoration(
           enabledBorder: new OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
@@ -286,7 +302,7 @@ Widget _instituicao() {
 Widget _voltarLogin(var context) {
   return GestureDetector(
     onTap: () {
-      Navigator.of(context).popUntil((route)=>route.isFirst);
+      Navigator.of(context).popUntil((route) => route.isFirst);
     },
     child: Text(
       'Voltar para o Login',

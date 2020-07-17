@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class DetalhesProjeto extends StatefulWidget {
+  var registro;
+
+  DetalhesProjeto(@required this.registro);
+
   @override
   _DetalhesProjetoState createState() => _DetalhesProjetoState();
 }
@@ -11,14 +15,14 @@ class _DetalhesProjetoState extends State<DetalhesProjeto> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(124, 70, 192, 1.0),
-        title: Text('TDH'),
+        title: Text('${widget.registro.titulo}'),
       ),
       backgroundColor: Color.fromRGBO(240, 240, 245, 1.0),
       body: SingleChildScrollView(
         child: ConstrainedBox(
           constraints: BoxConstraints(),
           child: Container(
-            child: Informacoes(),
+            child: Informacoes(widget.registro),
           ),
         ),
       ),
@@ -26,7 +30,7 @@ class _DetalhesProjetoState extends State<DetalhesProjeto> {
   }
 }
 
-Widget Informacoes() {
+Widget Informacoes(var registro) {
   return Padding(
     padding: const EdgeInsets.only(top: 40, left: 30, right: 20),
     child: Column(
@@ -47,21 +51,21 @@ Widget Informacoes() {
             ),
           ),
           child: Text(
-            'TDH ou transtorno de hiperatividade é um distúrbio que atige milhares de crianças, e um de seus efeitos colaterais é uma grande dificuldade de apredizado.O estudo tem como grande objetivo, criar um aplicativo móvel que auxilie crianças, focado especialmente nesse tipo de transtorno. Fazer com que as crianças tenha foco no aprendizado é o grande desafio que esse projeto tem.',
+            '${registro.descricao}',
             style: TextStyle(fontSize: 28),
           ),
         ),
         _texto('Link do Artigo'),
-        _purpleBox('https://artigo.com'),
+        _purpleBox('${registro.linkArtigo}'),
         _texto('Data de início:'),
-        _purpleBox('22/06/2021'),
+        _purpleBox('${registro.dataInicio}'),
         _texto('Prazo de término:'),
-        _purpleBox('22/06/2023'),
+        _purpleBox('${registro.previsaoTermino}'),
         _texto('Custo:'),
-        _purpleBox('R\$ 10.000,00'),
+        _purpleBox('R\$ ${registro.custo},00'),
         _texto('Contatos:'),
-        _contatos(Icons.settings_phone,'(35) 9 9999-9999'),
-        _contatos(Icons.mail,'matheus@gmail.com'),
+        _contatos(Icons.settings_phone,'${registro.telefone}'),
+        _contatos(Icons.mail,'${registro.email}'),
       ],
     ),
   );

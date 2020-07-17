@@ -1,5 +1,8 @@
 import 'package:atividades_integradoras/services/auth.dart';
 import 'package:atividades_integradoras/telas/cadastro.dart';
+import 'package:atividades_integradoras/telas/listaprojetos.dart';
+import 'package:atividades_integradoras/telas/pesquisador.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(AtividadeIntegradora());
@@ -20,7 +23,6 @@ class TelaInicial extends StatelessWidget {
   TextEditingController txtEmail = new TextEditingController();
   TextEditingController txtSenha = new TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +31,6 @@ class TelaInicial extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-
           Image.asset(
             'assets/inicial.png',
             height: 320,
@@ -43,7 +44,6 @@ class TelaInicial extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-
           Container(
             padding: const EdgeInsets.only(
                 left: 42.5, right: 42.5, top: 12.0, bottom: 12.0),
@@ -93,7 +93,6 @@ class TelaInicial extends StatelessWidget {
               ),
             ),
           ),
-          
           Container(
             padding: const EdgeInsets.only(
               left: 42.5,
@@ -104,42 +103,62 @@ class TelaInicial extends StatelessWidget {
             child: SizedBox(
               height: 66,
               width: double.infinity,
-              child: RaisedButton(                
+              child: RaisedButton(
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.0))),
                 child: Text('Sign in', style: TextStyle(fontSize: 26)),
                 onPressed: () async {
-                  dynamic result = await _auth.signInEmailPasswd(txtEmail.text, txtSenha.text);
-                  if (result == null){
+                  dynamic result = await _auth.signInEmailPasswd(
+                      txtEmail.text, txtSenha.text);
+                  if (result == null) {
                     print('error signing in');
-                  }else{
+                  } else {
                     print('signed in');
-                    print(result.uid);
+                    bool pesInv = false;
+                    await _getUsuario(result.uid).then((QuerySnapshot docs) {
+                      pesInv = docs.documents[0].data['pesquisador'];
+                    });
+                    if (pesInv) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Pesquisador()));
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ListaProjetos()));
+                    }
                   }
                 },
               ),
             ),
           ),
-
           GestureDetector(
-            onTap: (){
+            onTap: () {
               Navigator.push(
-                context, 
-                MaterialPageRoute(builder: (context)=> CadastroPasso1()),
+                context,
+                MaterialPageRoute(builder: (context) => CadastroPasso1()),
               );
             },
             child: Text(
-              'Faça seu cadastro gratuito', 
+              'Faça seu cadastro gratuito',
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.white,
               ),
             ),
           ),
-
         ],
       ),
     );
+  }
+
+  _getUsuario(String uid) {
+    return Firestore.instance
+        .collection('usuario')
+        .where('uid', isEqualTo: uid)
+        .getDocuments();
   }
 }

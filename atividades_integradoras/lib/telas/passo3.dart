@@ -1,11 +1,15 @@
+import 'package:atividades_integradoras/models/user.dart';
+import 'package:atividades_integradoras/repository/datauser.dart';
 import 'package:atividades_integradoras/telas/listaprojetos.dart';
 import 'package:atividades_integradoras/telas/pesquisador.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Passo3 extends StatefulWidget {
   var tipoUsuario = new List<String>();
+  User usuario;
 
-  Passo3() {
+  Passo3({@required this.usuario}) {
     tipoUsuario = ['Investidor', 'Pesquisador'];
   }
 
@@ -14,6 +18,7 @@ class Passo3 extends StatefulWidget {
 }
 
 class _Passo3State extends State<Passo3> {
+  UserRepository repositorioUsuario = UserRepository();
   var _currentTipo;
 
   @override
@@ -137,12 +142,28 @@ class _Passo3State extends State<Passo3> {
                     SizedBox(width: 30),
                   ],
                 ),
-                onPressed: (){
-                  if(_currentTipo=='Investidor'){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ListaProjetos()));
+                onPressed: () async {
+                  await repositorioUsuario.addUser(
+                    User(
+                      nome: widget.usuario.nome,
+                      email: widget.usuario.email,
+                      cidade: widget.usuario.cidade,
+                      escolaridade: widget.usuario.escolaridade,
+                      instituicao: widget.usuario.instituicao,
+                      pesquisador: (_currentTipo == 'Investidor' ? false : true),
+                      uf: widget.usuario.uf,
+                      uid: widget.usuario.uid,
+                    ),
+                  );
+                  if (_currentTipo == 'Investidor') {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ListaProjetos()));
                   }
-                  if(_currentTipo=='Pesquisador'){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Pesquisador()));                    
+                  if (_currentTipo == 'Pesquisador') {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Pesquisador()));
                   }
                 },
               ),
